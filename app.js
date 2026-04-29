@@ -422,7 +422,7 @@ function removeMonthsFromDateRange(value) {
 }
 
 function render() {
-  exportFilenameInput.value ||= "Lisa-Mengotto-Resume.pdf";
+  exportFilenameInput.value ||= "resume.pdf";
   renderHeaderEditor();
   renderSummaryEditor();
   renderSectionsEditor();
@@ -784,7 +784,7 @@ function initSplitter() {
 }
 
 function syncFilenameToTitle() {
-  const rawName = exportFilenameInput.value.trim() || "Lisa-Mengotto-Resume.pdf";
+  const rawName = exportFilenameInput.value.trim() || "resume.pdf";
   const safeName = rawName.toLowerCase().endsWith(".pdf") ? rawName : `${rawName}.pdf`;
   document.title = safeName;
 }
