@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Checkmark Maker</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar__top">
+          <div>
+            <p class="eyebrow">Resume Source</p>
+            <h1>Resume Checkmark Maker</h1>
+            <p class="lede">
+              Edit the source text, toggle bullets on and off, and export a tailored PDF.
+            </p>
+          </div>
+          <div class="toolbar">
+            <label class="filename-field">
+              <span>Export Filename</span>
+              <input id="exportFilename" type="text" placeholder="Lisa-Mengotto-Dash-VC.pdf" />
+            </label>
+            <div class="toolbar__actions">
+              <button id="exportPdfButton" class="button button--primary" type="button">
+                Export PDF
+              </button>
+              <button id="resetButton" class="button button--ghost" type="button">
+                Reset Sample
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <section class="panel">
+          <div class="panel__header">
+            <h2>Header</h2>
+          </div>
+          <div id="headerEditor" class="stack"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__header">
+            <h2>Summary</h2>
+          </div>
+          <div id="summaryEditor" class="stack"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__header">
+            <h2>Sections</h2>
+            <button id="addSectionButton" class="button button--small" type="button">
+              Add Section
+            </button>
+          </div>
+          <div id="sectionsEditor" class="stack"></div>
+        </section>
+      </aside>
+
+      <div
+        id="splitter"
+        class="splitter"
+        role="separator"
+        aria-orientation="vertical"
+        aria-label="Resize editor and preview"
+        tabindex="0"
+      ></div>
+
+      <main class="preview-shell">
+        <div class="preview-shell__top">
+          <div>
+            <p class="eyebrow">Live Preview</p>
+            <p class="preview-note">
+              You can click directly on the resume preview to edit visible text.
+            </p>
+          </div>
+          <div class="zoom-toolbar">
+            <button id="zoomOutButton" class="button button--ghost" type="button">-</button>
+            <label class="zoom-field">
+              <span>Zoom</span>
+              <input id="zoomRange" type="range" min="60" max="140" step="5" value="100" />
+            </label>
+            <button id="zoomInButton" class="button button--ghost" type="button">+</button>
+            <output id="zoomValue" class="zoom-value">100%</output>
+          </div>
+        </div>
+
+        <div class="page-stage">
+          <div id="resumeZoomWrap" class="resume-zoom-wrap">
+            <div id="resumePages" class="resume-pages"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <template id="fieldTemplate">
+      <label class="field">
+        <span class="field__label"></span>
+        <input class="field__input" type="text" />
+      </label>
+    </template>
+
+    <template id="textareaTemplate">
+      <label class="field">
+        <span class="field__label"></span>
+        <textarea class="field__textarea" rows="4"></textarea>
+      </label>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
