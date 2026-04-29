@@ -2,11 +2,11 @@ const STORAGE_KEY = "resume-checkmark-maker-state-v2";
 
 const defaultResumeData = {
   header: {
-    name: "Lisa Mengotto",
+    name: "First Last",
     headline: "Content Strategist and Venture Fellow",
     phone: "",
     email: "",
-    linkedin: "linkedin.com/in/lisamengotto",
+    linkedin: "",
   },
   summary: {
     title: "Summary",
@@ -20,10 +20,10 @@ const defaultResumeData = {
         {
           id: crypto.randomUUID(),
           role: "Venture Fellow",
-          company: "Dash VC",
+          company: "",
           location: "San Francisco, CA",
-          dateRange: "Nov 2025 - Present",
-          blurb: "Dash VC is an early-stage venture capital fund investing in AI and data infrastructure.",
+          dateRange: "2025 - Present",
+          blurb: "",
           bullets: [
             {
               id: crypto.randomUUID(),
@@ -50,10 +50,10 @@ const defaultResumeData = {
         {
           id: crypto.randomUUID(),
           role: "Content Strategist",
-          company: "Astrellis",
+          company: "",
           location: "New York, NY",
-          dateRange: "May 2024 - Nov 2025",
-          blurb: "Astrellis is a communications studio working with early-stage teams on founder-led storytelling.",
+          dateRange: "2024 - 2025",
+          blurb: "",
           bullets: [
             {
               id: crypto.randomUUID(),
@@ -80,10 +80,10 @@ const defaultResumeData = {
         {
           id: crypto.randomUUID(),
           role: "Editorial Content Manager",
-          company: "That's Nice",
+          company: "",
           location: "New York, NY",
-          dateRange: "Aug 2023 - Apr 2024",
-          blurb: "That's Nice is a boutique agency for research-driven marketing and advisory in life sciences.",
+          dateRange: "2023 - 2024",
+          blurb: "",
           bullets: [
             {
               id: crypto.randomUUID(),
@@ -124,10 +124,10 @@ const defaultResumeData = {
         {
           id: crypto.randomUUID(),
           role: "Product Marketing Manager",
-          company: "Enhatch",
+          company: "",
           location: "Hasbrouck Heights, NJ",
-          dateRange: "Sep 2019 - Jan 2020",
-          blurb: "Enhatch is a venture-backed health tech startup leveraging AI for surgical planning.",
+          dateRange: "2019 - 2020",
+          blurb: "",
           bullets: [
             {
               id: crypto.randomUUID(),
@@ -277,12 +277,7 @@ const defaultResumeData = {
           location: "",
           dateRange: "",
           blurb: "",
-          bullets: [
-            { id: crypto.randomUUID(), text: "LinkedIn: linkedin.com/in/lisamengotto", selected: true },
-            { id: crypto.randomUUID(), text: "Website: lisamengotto.com", selected: true },
-            { id: crypto.randomUUID(), text: "Substack: lisamengotto.substack.com", selected: true },
-            { id: crypto.randomUUID(), text: "Twitter: x.com/LisaMengotto", selected: true },
-          ],
+          bullets: [],
         },
       ],
     },
@@ -354,8 +349,10 @@ function normalizeState(candidate) {
   normalized.header = {
     ...defaultResumeData.header,
     ...(normalized.header || {}),
+    name: "First Last",
     phone: "",
     email: "",
+    linkedin: "",
   };
 
   const existingTitles = new Set(normalized.sections.map((section) => section.title));
@@ -368,6 +365,12 @@ function normalizeState(candidate) {
 
   const experienceSection = normalized.sections.find((section) => section.title === "Relevant Experience");
   if (experienceSection && Array.isArray(experienceSection.entries)) {
+    experienceSection.entries.forEach((entry) => {
+      entry.company = "";
+      entry.blurb = "";
+      entry.dateRange = removeMonthsFromDateRange(entry.dateRange || "");
+    });
+
     const hasGradLine = experienceSection.entries.some(
       (entry) => entry.role === "Graduate School Research, Teaching and Scientific Consultant Work 2020 - 2023",
     );
@@ -391,7 +394,31 @@ function normalizeState(candidate) {
     }
   }
 
+  const linksSection = normalized.sections.find((section) => section.title === "Links");
+  if (linksSection && Array.isArray(linksSection.entries)) {
+    linksSection.entries = linksSection.entries.map((entry) => ({
+      ...entry,
+      role: "",
+      company: "",
+      location: "",
+      dateRange: "",
+      blurb: "",
+      bullets: [],
+    }));
+  }
+
   return normalized;
+}
+
+function removeMonthsFromDateRange(value) {
+  return value
+    .replace(
+      /\b(Jan|January|Feb|February|Mar|March|Apr|April|May|Jun|June|Jul|July|Aug|August|Sep|Sept|September|Oct|October|Nov|November|Dec|December)\b\.?/gi,
+      "",
+    )
+    .replace(/\s*[–-]\s*/g, " - ")
+    .replace(/\s{2,}/g, " ")
+    .replace(/^\s+|\s+$/g, "");
 }
 
 function render() {
