@@ -4,8 +4,8 @@ const defaultResumeData = {
   header: {
     name: "Lisa Mengotto",
     headline: "Content Strategist and Venture Fellow",
-    phone: "(609) 994-4927",
-    email: "LisaMengotto@gmail.com",
+    phone: "",
+    email: "",
     linkedin: "linkedin.com/in/lisamengotto",
   },
   summary: {
@@ -350,6 +350,13 @@ function normalizeState(candidate) {
   if (!Array.isArray(normalized.sections)) {
     return structuredClone(defaultResumeData);
   }
+
+  normalized.header = {
+    ...defaultResumeData.header,
+    ...(normalized.header || {}),
+    phone: "",
+    email: "",
+  };
 
   const existingTitles = new Set(normalized.sections.map((section) => section.title));
 
